@@ -1,0 +1,2 @@
+rootProject.name='FimeBookandMarket2'
+include ':app'
