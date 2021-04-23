@@ -21,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.main_login_btn:
-
+                Intent intent1 = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(intent1);
                 break;
         }
     }
