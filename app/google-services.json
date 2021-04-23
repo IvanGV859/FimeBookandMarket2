@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "53823345931",
+    "project_id": "fimebook-and-market-ead24",
+    "storage_bucket": "fimebook-and-market-ead24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:53823345931:android:9e70b279b56cc30198be0e",
+        "android_client_info": {
+          "package_name": "com.example.fimebookandmarket2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "53823345931-1iko6a6hoi548oakvk426305q4p2veq9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fimebookandmarket2",
+            "certificate_hash": "d442ede1d5adbc00e1010b5c6107e46bf517f1a0"
+          }
+        },
+        {
+          "client_id": "53823345931-i1d1mfbtlej504ggd4vh0qn1lr4lits4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtpqT9coWWupJDX0XEfrRtZSQgqRBqAcc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "53823345931-i1d1mfbtlej504ggd4vh0qn1lr4lits4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
