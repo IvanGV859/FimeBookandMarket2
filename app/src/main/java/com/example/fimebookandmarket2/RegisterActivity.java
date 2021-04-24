@@ -110,6 +110,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     }
                                 }
                             });
+
                 } else {
                     Toast.makeText(RegisterActivity.this, "El telefono " + phone + " ya existe.", Toast.LENGTH_SHORT).show();
                     loadingBar.dismiss();
