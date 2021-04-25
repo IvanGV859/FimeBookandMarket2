@@ -103,11 +103,22 @@
         android:textStyle="bold"
         />
 
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/register_phone_input"
+        android:entries="@array/TipoUs"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        />
+
     <Button
         android:id="@+id/register_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/register_phone_input"
+        android:layout_below="@+id/spinner"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"

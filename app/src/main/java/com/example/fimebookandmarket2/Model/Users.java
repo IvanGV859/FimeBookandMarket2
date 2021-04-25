@@ -1,20 +1,25 @@
 package com.example.fimebookandmarket2.Model;
 
 public class Users {
-    private String id, email, name, password, phone;
+    private String id, email, name, password, phone, tipoUs;
 
     public Users()
     {
 
     }
 
-    public Users(String id, String email, String name, String password, String phone) {
+    public Users(String id, String email, String name, String password, String phone, String tipoUs) {
         this.id = id;
         this.email = email;
         this.name = name;
         this.password = password;
         this.phone = phone;
+        this.tipoUs = tipoUs;
     }
+
+    public String getTipoUs() { return tipoUs; }
+
+    public void setTipoUs(String tipoUs) { this.tipoUs = tipoUs; }
 
     public String getId() { return id; }
 

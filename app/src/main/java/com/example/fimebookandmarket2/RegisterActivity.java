@@ -8,9 +8,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,6 +30,8 @@ import java.util.HashMap;
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText InputName, InputEmail, InputPassword, InputConfPassword, InputPhone;
+    Spinner opciones;
+    String TipoUs;
     private ProgressDialog loadingBar;
 
     FirebaseAuth mAuth;
@@ -41,12 +45,17 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        opciones = findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.TipoUs, android.R.layout.simple_spinner_item);
+        opciones.setAdapter(adapter);
+
         InputName = (EditText) findViewById(R.id.register_username_input);
         InputEmail = (EditText) findViewById(R.id.register_email_input);
         InputPassword = (EditText) findViewById(R.id.register_password_input);
         InputConfPassword = (EditText) findViewById(R.id.register_confpassword_input);
         InputPhone = (EditText) findViewById(R.id.register_phone_input);
         loadingBar = new ProgressDialog(this);
+
     }
 
     public void onClick(View view){
@@ -63,6 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
         String password = InputPassword.getText().toString();
         String confpassword = InputConfPassword.getText().toString();
         String phone = InputPhone.getText().toString();
+        TipoUs = opciones.getSelectedItem().toString();
 
         if(!name.isEmpty() && !email.isEmpty() && !password.isEmpty() && !confpassword.isEmpty() && !phone.isEmpty()) {
             if (password.length() >= 6) {
@@ -73,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
                         loadingBar.setCanceledOnTouchOutside(false);
                         loadingBar.show();
 
-                        ValidatephoneNumber(name, email, password, confpassword, phone);
+                        ValidatephoneNumber(name, email, password, confpassword, phone, TipoUs);
                     } else {
                         Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
                     }
@@ -88,37 +98,38 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private void ValidatephoneNumber(final String name, final String email, final String password, final String confpassword,final String phone) {
+    private void ValidatephoneNumber(final String name, final String email, final String password, final String confpassword, final String phone, final String tipoUs) {
 
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    HashMap<String, Object> userdataMap = new HashMap<>();
-                    userdataMap.put("name", name);
-                    userdataMap.put("email", email);
-                    userdataMap.put("password", password);
-                    userdataMap.put("confpass", confpassword);
-                    userdataMap.put("phone", phone);
+                        HashMap<String, Object> userdataMap = new HashMap<>();
+                        userdataMap.put("name", name);
+                        userdataMap.put("email", email);
+                        userdataMap.put("password", password);
+                        userdataMap.put("confpass", confpassword);
+                        userdataMap.put("phone", phone);
+                        userdataMap.put("tipous", tipoUs);
 
-                    String id = mAuth.getCurrentUser().getUid();
+                        String id = mAuth.getCurrentUser().getUid();
 
-                    mDatabase.child("Users").child(id).setValue(userdataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task2) {
-                            //Verificar si registra los datos correctamente en la base de datos
-                            if(task2.isSuccessful()){
-                                Toast.makeText(RegisterActivity.this, "Cuenta creada correctamente", Toast.LENGTH_SHORT).show();
-                                loadingBar.dismiss();
-                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                startActivity(intent);
+                        mDatabase.child(tipoUs).child(id).setValue(userdataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task2) {
+                                //Verificar si registra los datos correctamente en la base de datos
+                                if(task2.isSuccessful()){
+                                    Toast.makeText(RegisterActivity.this, "Cuenta creada correctamente", Toast.LENGTH_SHORT).show();
+                                    loadingBar.dismiss();
+                                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                                else {
+                                    loadingBar.dismiss();
+                                    Toast.makeText(RegisterActivity.this, "No se registraron los datos correctamente", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                            else {
-                                loadingBar.dismiss();
-                                Toast.makeText(RegisterActivity.this, "No se registraron los datos correctamente", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+                        });
                 }
                 else {
                     loadingBar.dismiss();

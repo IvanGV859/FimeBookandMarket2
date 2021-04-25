@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.fimebookandmarket2.Model.Users;
 import com.rey.material.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog loadingBar;
 
     FirebaseAuth mAuth;
-    private String parentDbName = "Users";
+    private String parentDbName = "Estudiante";
     private CheckBox chkBoxRememberMe;
 
     private TextView AdminLink, NotAdminLink;
@@ -69,17 +71,17 @@ public class LoginActivity extends AppCompatActivity {
                 LoginButton.setText("Inicio sesion Admin");
                 AdminLink.setVisibility(View.INVISIBLE);
                 NotAdminLink.setVisibility(View.VISIBLE);
-                parentDbName = "Admins";
+                parentDbName = "Administrador";
             }
         });
 
         NotAdminLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginButton.setText("Inicio sesion");
+                LoginButton.setText("Inicio sesion Estudiante");
                 AdminLink.setVisibility(View.VISIBLE);
                 NotAdminLink.setVisibility(View.INVISIBLE);
-                parentDbName = "Users";
+                parentDbName = "Estudiante";
             }
         });
     }
@@ -109,14 +111,14 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
-                        if(parentDbName.equals("Admins")){
+                        if(parentDbName.equals("Administrador")){
                             Toast.makeText(LoginActivity.this, "Entrando a cuenta Admin...", Toast.LENGTH_SHORT).show();
                             loadingBar.dismiss();
                             Intent intent = new Intent(LoginActivity.this, AdminCategoryActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                             finish();
-                        }  else if(parentDbName.equals("Users")){
+                        }  else if(parentDbName.equals("Estudiante")){
                             Toast.makeText(LoginActivity.this, "Entrando...", Toast.LENGTH_SHORT).show();
                             loadingBar.dismiss();
                             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
