@@ -27,7 +27,7 @@ public class splash_screen extends Activity {
 
         Timer tiempo = new Timer();
 
-        tiempo.schedule(tarea, 3000);
+        tiempo.schedule(tarea, 4000);
 
     }
 }
