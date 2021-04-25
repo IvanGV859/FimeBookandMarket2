@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
                         if(parentDbName.equals("Admins")){
                             Toast.makeText(LoginActivity.this, "Entrando a cuenta Admin...", Toast.LENGTH_SHORT).show();
                             loadingBar.dismiss();
-                            Intent intent = new Intent(LoginActivity.this, AdminAddNewProductActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, AdminCategoryActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                             finish();

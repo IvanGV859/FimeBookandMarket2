@@ -29,7 +29,7 @@
         android:layout_marginTop="45dp">
 
         <ImageView
-            android:id="@+id/books"
+            android:id="@+id/papeleo"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@drawable/books" />
@@ -62,24 +62,24 @@
         android:layout_marginTop="45dp">
 
         <ImageView
-            android:id="@+id/books"
+            android:id="@+id/laptop"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/books" />
+            android:src="@drawable/laptop" />
 
         <ImageView
-            android:id="@+id/calculator"
+            android:id="@+id/proyector"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/calculadora"
+            android:src="@drawable/proyector"
             android:layout_marginStart="16dp"
             />
 
         <ImageView
-            android:id="@+id/leds"
+            android:id="@+id/bata"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/leds"
+            android:src="@drawable/bata"
             />
     </LinearLayout>
 
@@ -94,24 +94,24 @@
         android:layout_marginTop="45dp">
 
         <ImageView
-            android:id="@+id/books"
+            android:id="@+id/componentes"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/books" />
+            android:src="@drawable/componentes" />
 
         <ImageView
-            android:id="@+id/calculator"
+            android:id="@+id/material"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/calculadora"
+            android:src="@drawable/material"
             android:layout_marginStart="16dp"
             />
 
         <ImageView
-            android:id="@+id/leds"
+            android:id="@+id/libro"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/leds"
+            android:src="@drawable/libro"
             />
     </LinearLayout>
 
