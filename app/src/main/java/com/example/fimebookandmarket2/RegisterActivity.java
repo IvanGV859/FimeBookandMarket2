@@ -105,6 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                         HashMap<String, Object> userdataMap = new HashMap<>();
+                        userdataMap.put("id", mAuth.getUid());
                         userdataMap.put("name", name);
                         userdataMap.put("email", email);
                         userdataMap.put("password", password);
