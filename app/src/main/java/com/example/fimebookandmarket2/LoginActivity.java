@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this,"Escribe tu contraseña...", Toast.LENGTH_SHORT).show();
         } else {
                 loadingBar.setTitle("Cargando cuenta");
-                loadingBar.setMessage("Porfavor espere, mientras validamos sus credenciales.");
+                loadingBar.setMessage("Porfavor espere, mientras validamos sus datos.");
                 loadingBar.setCanceledOnTouchOutside(false);
                 loadingBar.show();
 

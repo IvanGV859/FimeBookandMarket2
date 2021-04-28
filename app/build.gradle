@@ -41,6 +41,7 @@ dependencies {
     //Database
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.firebase:firebase-database:16.0.1'
+    implementation 'com.google.firebase:firebase-storage:16.0.1'
     //Paper https://github.com/pilgr/Paper
     implementation 'io.paperdb:paperdb:2.7.1'
 
