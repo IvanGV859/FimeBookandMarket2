@@ -201,7 +201,7 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
         productMap.put("pid", productRandomKey);
         productMap.put("date", saveCurrentDate);
         productMap.put("time", saveCurrentTime);
-        productMap.put("descrption", Description);
+        productMap.put("description", Description);
         productMap.put("image", downloadImageUrl);
         productMap.put("category", CategoryName);
         productMap.put("price", Price);

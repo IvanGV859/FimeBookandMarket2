@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
 
     tools:context=".RegisterActivity">
 
@@ -12,7 +13,8 @@
         android:layout_width="300dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp" />
+        android:layout_marginTop="70dp"
+        android:src="@drawable/applogo"/>
 
     <EditText
         android:id="@+id/register_username_input"
@@ -29,6 +31,7 @@
         android:textColorHint="@color/colorPrimary"
         android:textSize="17sp"
         android:textStyle="bold"
+        android:layout_marginTop="80dp"
         />
 
     <EditText

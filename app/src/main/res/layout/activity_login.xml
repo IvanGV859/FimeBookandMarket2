@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
 
     tools:context=".LoginActivity">
 
@@ -11,8 +12,9 @@
         android:id="@+id/login_applogo"
         android:layout_width="300dp"
         android:layout_height="100dp"
+        android:src="@drawable/applogo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="130dp"
         />
 
     <EditText
@@ -30,6 +32,7 @@
         android:textColorHint="@color/colorPrimaryDark"
         android:textSize="17sp"
         android:textStyle="bold"
+        android:layout_marginTop="120dp"
         />
 
     <EditText
