@@ -9,18 +9,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".SettingsActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AdminCategoryActivity" />
-        <activity android:name=".AdminAddNewProductActivity" />
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+
+        <activity android:name=".AdminCategoryActivity"
+            />
+
+        <activity android:name=".AdminAddNewProductActivity"
+            android:parentActivityName=".AdminCategoryActivity">
+
+        </activity>
+
         <activity
             android:name=".splash_screen"
             android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen">
@@ -30,8 +40,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".RegisterActivity" />
+
         <activity android:name=".LoginActivity" />
+
         <activity android:name=".MainActivity" />
     </application>
 

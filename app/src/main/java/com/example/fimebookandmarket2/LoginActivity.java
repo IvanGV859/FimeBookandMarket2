@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     private String parentDbName = "Estudiante";
     private CheckBox chkBoxRememberMe;
 
-    private TextView AdminLink, NotAdminLink, tipo_usuario_estudiante, tipo_usuario_admin;
+    private TextView AdminLink, NotAdminLink, TipoUsuarioEstudiante, TipoUsuarioAdmin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +61,8 @@ public class LoginActivity extends AppCompatActivity {
 
         AdminLink = (TextView) findViewById(R.id.admin_panel_link);
         NotAdminLink = (TextView) findViewById(R.id.not_admin_panel_link);
-        tipo_usuario_estudiante = (TextView) findViewById(R.id.tipo_usuario_estudiante);
-        tipo_usuario_admin = (TextView) findViewById(R.id.tipo_usuario_admin);
+        TipoUsuarioEstudiante = (TextView) findViewById(R.id.tipo_usuario_estudiante);
+        TipoUsuarioAdmin = (TextView) findViewById(R.id.tipo_usuario_admin);
 
         chkBoxRememberMe = (CheckBox) findViewById(R.id.remember_me_chkb);
         Paper.init(this);
@@ -79,9 +79,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 LoginButton.setText("Inicio sesion");
                 AdminLink.setVisibility(View.INVISIBLE);
-                tipo_usuario_estudiante.setVisibility(View.INVISIBLE);
+                TipoUsuarioEstudiante.setVisibility(View.INVISIBLE);
                 NotAdminLink.setVisibility(View.VISIBLE);
-                tipo_usuario_admin.setVisibility(View.VISIBLE);
+                TipoUsuarioAdmin.setVisibility(View.VISIBLE);
                 parentDbName = "Administrador";
             }
         });
@@ -91,9 +91,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 LoginButton.setText("Inicio sesion");
                 AdminLink.setVisibility(View.VISIBLE);
-                tipo_usuario_estudiante.setVisibility(View.VISIBLE);
+                TipoUsuarioEstudiante.setVisibility(View.VISIBLE);
                 NotAdminLink.setVisibility(View.INVISIBLE);
-                tipo_usuario_admin.setVisibility(View.INVISIBLE);
+                TipoUsuarioAdmin.setVisibility(View.INVISIBLE);
                 parentDbName = "Estudiante";
             }
         });
@@ -134,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Users usuario = snapshot1.getValue(Users.class);
                                 String correo=usuario.getEmail();
                                 String password1=usuario.getPassword();
-                                String tipousuario = usuario.getTipoUs();
+                                //String tipousuario = usuario.getTipoUs();
 
                                 if(email.equals(correo) && password.equals(password1))
                                 {
@@ -149,7 +149,7 @@ public class LoginActivity extends AppCompatActivity {
                                         loadingBar.dismiss();
 
                                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                        Prevalent.currentOnlineUser = usuario;
+                                        //Prevalent.currentOnlineUser = usuario;
                                         startActivity(intent);
                                     }
                                 } else {
@@ -167,111 +167,6 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) { }
             });
-
-                /*
-                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        FirebaseUser mFirebaseUser = mAuth.getCurrentUser();
-                        if(mFirebaseUser != null) {
-                            String currentUserID = mFirebaseUser.getUid(); //Do what you need to do with the id
-
-                            if (dataSnapshot.child(parentDbName).child(currentUserID).exists()) {
-                                Users usersData = dataSnapshot.child(parentDbName).child(currentUserID).getValue(Users.class);
-
-                                if (usersData.getEmail().equals(email)) {
-                                    if(usersData.getPassword().equals(password)){
-                                        if(parentDbName.equals("Administrador")){
-                                            Toast.makeText(LoginActivity.this, "Entrando a cuenta Admin...", Toast.LENGTH_SHORT).show();
-                                            loadingBar.dismiss();
-
-                                            Intent intent = new Intent(LoginActivity.this, AdminCategoryActivity.class);
-                                            startActivity(intent);
-                                        } else if(parentDbName.equals("Estudiante")){
-                                            Toast.makeText(LoginActivity.this, "Entrando a cuenta Admin...", Toast.LENGTH_SHORT).show();
-                                            loadingBar.dismiss();
-
-                                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                            startActivity(intent);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Verificar bien los datos o el tipo de usuario", Toast.LENGTH_SHORT).show();
-                            loadingBar.dismiss();
-                        }
-
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    };*/
-
-            /*mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull final Task<AuthResult> task) {
-
-                    mDatabase.child(parentDbName).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(task.isSuccessful()){
-                                String id = mAuth.getCurrentUser().getUid();
-
-                                if(dataSnapshot.child(parentDbName).child(id).exists()){
-
-                                    Users usersData = dataSnapshot.child(parentDbName).child(id).getValue(Users.class);
-
-                                    if(usersData.getEmail().equals(email)){
-                                        if(usersData.getPassword().equals(password)){
-                                            if(parentDbName.equals("Administrador")){
-                                                Toast.makeText(LoginActivity.this, "Entrando a cuenta Admin...", Toast.LENGTH_SHORT).show();
-                                                loadingBar.dismiss();
-                                                Intent intent = new Intent(LoginActivity.this, AdminCategoryActivity.class);
-                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                            if (parentDbName.equals("Estudiante")){
-                                                Toast.makeText(LoginActivity.this, "Entrando...", Toast.LENGTH_SHORT).show();
-                                                loadingBar.dismiss();
-                                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        }
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, "Verificar bien los datos o el tipo de usuario", Toast.LENGTH_SHORT).show();
-                                        loadingBar.dismiss();
-                                    }
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });*/
-
-                    /*if(task.isSuccessful()){
-                        if(parentDbName.equals("Administrador")){
-                            Toast.makeText(LoginActivity.this, "Entrando a cuenta Admin...", Toast.LENGTH_SHORT).show();
-                            loadingBar.dismiss();
-                            Intent intent = new Intent(LoginActivity.this, AdminCategoryActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                            finish();
-                        }
-                        if (parentDbName.equals("Estudiante")){
-                            Toast.makeText(LoginActivity.this, "Entrando...", Toast.LENGTH_SHORT).show();
-                            loadingBar.dismiss();
-                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                            finish();
-                        }*/
         }
     }
 }

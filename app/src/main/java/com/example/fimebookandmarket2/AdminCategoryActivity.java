@@ -5,7 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import io.paperdb.Paper;
 
 public class AdminCategoryActivity extends AppCompatActivity {
 
@@ -13,10 +17,14 @@ public class AdminCategoryActivity extends AppCompatActivity {
     private ImageView laptop, proyector, bata;
     private ImageView componentes, material, libros;
 
+    private Button logoutbtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_category);
+
+        Paper.init(this);
 
         papeleo = (ImageView) findViewById(R.id.papeleo);
         leds = (ImageView) findViewById(R.id.leds);
@@ -29,6 +37,20 @@ public class AdminCategoryActivity extends AppCompatActivity {
         componentes = (ImageView) findViewById(R.id.componentes);
         material = (ImageView) findViewById(R.id.material);
         libros = (ImageView) findViewById(R.id.libro);
+
+        logoutbtn = (Button) findViewById(R.id.logout_btn);
+
+        logoutbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(AdminCategoryActivity.this, "Cerrando sesion...", Toast.LENGTH_SHORT).show();
+                Paper.book().destroy();
+                Intent intent = new Intent(AdminCategoryActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         papeleo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,4 +142,5 @@ public class AdminCategoryActivity extends AppCompatActivity {
             }
         });
     }
+
 }

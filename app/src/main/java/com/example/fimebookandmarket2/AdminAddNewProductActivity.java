@@ -52,6 +52,8 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_add_new_product);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         CategoryName = getIntent().getExtras().get("Categoria").toString();
         ProductImagesRef = FirebaseStorage.getInstance().getReference().child("Imagen del Producto");
         ProductRef = FirebaseDatabase.getInstance().getReference().child("Productos");
@@ -229,4 +231,5 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
                     }
                 });
     }
+
 }
