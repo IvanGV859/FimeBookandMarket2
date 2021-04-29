@@ -17,6 +17,35 @@
         android:layout_marginTop="130dp"
         />
 
+    <TextView
+        android:id="@+id/tipo_usuario_estudiante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_applogo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-2dp"
+        android:layout_marginEnd="154dp"
+        android:layout_marginRight="154dp"
+        android:text="ESTUDIANTE"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tipo_usuario_admin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_applogo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-2dp"
+        android:layout_marginEnd="154dp"
+        android:layout_marginRight="154dp"
+        android:text="ADMINISTRADOR"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:visibility="invisible"/>
+
     <EditText
         android:id="@+id/login_email_input"
         android:layout_width="match_parent"
@@ -100,7 +129,7 @@
         android:padding="17dp"
         android:textAllCaps="false"
         android:textSize="18sp"
-        android:text="Iniciar sesion Estudiante"
+        android:text="Iniciar sesion"
         android:textColor="@android:color/white"
         android:layout_alignParentLeft="true" />
 

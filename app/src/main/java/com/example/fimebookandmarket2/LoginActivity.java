@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     private String parentDbName = "Estudiante";
     private CheckBox chkBoxRememberMe;
 
-    private TextView AdminLink, NotAdminLink;
+    private TextView AdminLink, NotAdminLink, tipo_usuario_estudiante, tipo_usuario_admin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +61,8 @@ public class LoginActivity extends AppCompatActivity {
 
         AdminLink = (TextView) findViewById(R.id.admin_panel_link);
         NotAdminLink = (TextView) findViewById(R.id.not_admin_panel_link);
+        tipo_usuario_estudiante = (TextView) findViewById(R.id.tipo_usuario_estudiante);
+        tipo_usuario_admin = (TextView) findViewById(R.id.tipo_usuario_admin);
 
         chkBoxRememberMe = (CheckBox) findViewById(R.id.remember_me_chkb);
         Paper.init(this);
@@ -75,9 +77,11 @@ public class LoginActivity extends AppCompatActivity {
         AdminLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginButton.setText("Inicio sesion Admin");
+                LoginButton.setText("Inicio sesion");
                 AdminLink.setVisibility(View.INVISIBLE);
+                tipo_usuario_estudiante.setVisibility(View.INVISIBLE);
                 NotAdminLink.setVisibility(View.VISIBLE);
+                tipo_usuario_admin.setVisibility(View.VISIBLE);
                 parentDbName = "Administrador";
             }
         });
@@ -85,9 +89,11 @@ public class LoginActivity extends AppCompatActivity {
         NotAdminLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginButton.setText("Inicio sesion Estudiante");
+                LoginButton.setText("Inicio sesion");
                 AdminLink.setVisibility(View.VISIBLE);
+                tipo_usuario_estudiante.setVisibility(View.VISIBLE);
                 NotAdminLink.setVisibility(View.INVISIBLE);
+                tipo_usuario_admin.setVisibility(View.INVISIBLE);
                 parentDbName = "Estudiante";
             }
         });
