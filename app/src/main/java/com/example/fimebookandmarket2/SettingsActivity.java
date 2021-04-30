@@ -1,21 +1,35 @@
 package com.example.fimebookandmarket2;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.squareup.picasso.Picasso;
+import com.theartofdev.edmodo.cropper.CropImage;
+
+import java.util.HashMap;
 
 import Prevalent.Prevalent;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -27,7 +41,8 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView profileChangeTextBtn, closeTextBtn, saveTextButton;
 
     private Uri imageUri;
-    private String myuri ="";
+    private String myUrl ="";
+    private StorageTask uploadTask;
     private StorageReference storageProfilePictureRef;
     private String checker ="";
 
@@ -35,6 +50,8 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        storageProfilePictureRef = FirebaseStorage.getInstance().getReference().child("Profile picture");
 
         profileImageView = (CircleImageView) findViewById(R.id.settings_profile_image);
         fullNameEditText = (EditText) findViewById(R.id.settings_full_name);
@@ -58,10 +75,9 @@ public class SettingsActivity extends AppCompatActivity {
         saveTextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checker.equals("clicked")){
+                if (checker.equals("clicked")) {
                     userInfoSaved();
-                }
-                else{
+                } else {
                     updateOnlyUserInfo();
                 }
             }
@@ -72,13 +88,134 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 checker = "clicked";
+
+                CropImage.activity(imageUri)
+                        .setAspectRatio(1, 1)
+                        .start(SettingsActivity.this);
             }
         });
     }
 
-    private void userInfoSaved() {
+
+
+    private void updateOnlyUserInfo() {
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        HashMap<String, Object> userMap = new  HashMap<>();
+        userMap. put("name", fullNameEditText.getText().toString());
+        userMap. put("address", fullNameEditText.getText().toString());
+        userMap. put("phoneOrder", fullNameEditText.getText().toString());
+        ref.child(Prevalent.currentOnlineUser.getPhone()).updateChildren(userMap);
+
+        startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+        Toast.makeText(SettingsActivity.this, "Perfil Actualizado con exito", Toast.LENGTH_SHORT).show();
+        finish();
 
     }
+
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE  && resultCode==RESULT_OK && data!=null)
+        {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            imageUri = result.getUri();
+            
+            profileImageView.setImageURI(imageUri);
+        }
+        else {
+            Toast.makeText(this, "Error, Intnta de nuevo", Toast.LENGTH_SHORT).show();
+
+            startActivity(new Intent(SettingsActivity.this, SettingsActivity.class));
+            finish();
+        }
+    }
+
+
+
+
+    private void userInfoSaved()
+    {
+        if (TextUtils.isEmpty(fullNameEditText.getText().toString())){
+            Toast.makeText(this, "Name is mandatory", Toast.LENGTH_SHORT).show();
+        }
+        else if (TextUtils.isEmpty(addressEditText.getText().toString())){
+            Toast.makeText(this, "Name is addres", Toast.LENGTH_SHORT).show();
+        }
+        else if (TextUtils.isEmpty(userPhoneEditText.getText().toString())){
+            Toast.makeText(this, "Name is phone", Toast.LENGTH_SHORT).show();
+        }
+        else if (checker.equals("clicked")){
+            uploadImage();
+        }
+    }
+
+
+
+    private void uploadImage() {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Perfil actualizado");
+        progressDialog.setMessage("Porfavor espera, mientras actualizamos tu informacion");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+
+        if (imageUri != null){
+            final StorageReference fileRef = storageProfilePictureRef
+                    .child(Prevalent.currentOnlineUser.getPhone() + ".jpg");
+
+            uploadTask = fileRef.putFile(imageUri);
+
+            uploadTask.continueWithTask(new Continuation() {
+                @Override
+                public Object then(@NonNull Task task) throws Exception {
+
+                    if (!task.isSuccessful()){
+                        throw task.getException();
+                    }
+
+                    return fileRef.getDownloadUrl();
+                }
+            })
+            .addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()){
+                        Uri downloadUri = task.getResult();
+                        myUrl = downloadUri.toString();
+
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
+
+                        HashMap<String, Object> userMap = new  HashMap<>();
+                        userMap. put("name", fullNameEditText.getText().toString());
+                        userMap. put("address", fullNameEditText.getText().toString());
+                        userMap. put("phoneOrder", fullNameEditText.getText().toString());
+                        userMap. put("image", myUrl);
+                        ref.child(Prevalent.currentOnlineUser.getPhone()).updateChildren(userMap);
+
+                        progressDialog.dismiss();
+
+                        startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+                        Toast.makeText(SettingsActivity.this, "Perfil Actualizado con exito", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                    else{
+                        progressDialog.dismiss();
+                        Toast.makeText(SettingsActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+        else {
+            Toast.makeText(this, "Imagen no seleccionada", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
     private void userInfoDisplay(final CircleImageView profileImageView, final EditText fullNameEditText, final EditText userPhoneEditText, final EditText addressEditText) {
         DatabaseReference UsersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(Prevalent.currentOnlineUser.getEmail());
