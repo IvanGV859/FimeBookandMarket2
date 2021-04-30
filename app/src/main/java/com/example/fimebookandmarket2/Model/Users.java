@@ -1,29 +1,31 @@
 package com.example.fimebookandmarket2.Model;
 
 public class Users {
-    private String id, email, name, password, phone, tipoUs;
+    private String id, email, name, password, phone, tipoUs, image, address;
 
     public Users()
     {
 
     }
 
-    public Users(String id, String email, String name, String password, String phone, String tipoUs) {
+    public Users(String id, String email, String name, String password, String phone, String tipoUs, String image, String address) {
         this.id = id;
         this.email = email;
         this.name = name;
         this.password = password;
         this.phone = phone;
         this.tipoUs = tipoUs;
+        this.image = image;
+        this.address = address;
     }
 
-    public String getTipoUs() { return tipoUs; }
+    public String getId() {
+        return id;
+    }
 
-    public void setTipoUs(String tipoUs) { this.tipoUs = tipoUs; }
-
-    public String getId() { return id; }
-
-    public void setId(String id) { this.id = id; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;
@@ -55,5 +57,29 @@ public class Users {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getTipoUs() {
+        return tipoUs;
+    }
+
+    public void setTipoUs(String tipoUs) {
+        this.tipoUs = tipoUs;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
