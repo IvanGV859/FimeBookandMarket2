@@ -53,14 +53,28 @@
         />
 
     <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+        android:id="@+id/number_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="6dp"
         app:textSize="16dp"
         app:initialNumber="1"
-
-
+        app:finalNumber="10"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/product_price_details"
+        android:layout_marginTop="10dp"
         >
 
     </com.cepheuen.elegantnumberbutton.view.ElegantNumberButton>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_product_to_cart_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:src="@drawable/nav_cart"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp"
+        />
 </RelativeLayout>
