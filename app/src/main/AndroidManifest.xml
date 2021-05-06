@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProductDetailsActivity"></activity>
+        <activity android:name=".CartActivity"></activity>
+        <activity android:name=".ProductDetailsActivity" />
         <activity
             android:name=".SettingsActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
@@ -27,7 +28,7 @@
         <activity android:name=".AdminCategoryActivity" />
         <activity
             android:name=".AdminAddNewProductActivity"
-            android:parentActivityName=".AdminCategoryActivity"></activity>
+            android:parentActivityName=".AdminCategoryActivity" />
         <activity
             android:name=".splash_screen"
             android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen">
