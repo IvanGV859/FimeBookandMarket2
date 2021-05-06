@@ -27,7 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 
-import Prevalent.Prevalent;
+import com.example.fimebookandmarket2.Prevalent.Prevalent;
 
 public class ProductDetailsActivity extends AppCompatActivity {
 
@@ -78,7 +78,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         final HashMap<String, Object> cartMap = new HashMap<>();
         cartMap.put("pid", productID);
         cartMap.put("pname", productName.getText().toString());
-        cartMap.put("price", productName.getText().toString());
+        cartMap.put("price", productPrice.getText().toString());
         cartMap.put("date", saveCurrentDate);
         cartMap.put("time", saveCurrentTime);
         cartMap.put("quantity", numberButton.getNumber());
@@ -86,7 +86,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
 
         //Aquí esta el error
-        cartListRef.child("User View").child(Prevalent.currentOnlineUser.getPhone()).child("Productos").child(productID).updateChildren(cartMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+        cartListRef.child("User View").child(Prevalent.currentOnlineUser.getId()).child("Productos").child(productID).updateChildren(cartMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){

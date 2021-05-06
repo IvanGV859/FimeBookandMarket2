@@ -27,11 +27,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.squareup.picasso.Picasso;
+import com.example.fimebookandmarket2.Prevalent.Prevalent;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.HashMap;
-
-import Prevalent.Prevalent;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -55,8 +54,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         profileImageView = (CircleImageView) findViewById(R.id.settings_profile_image);
         fullNameEditText = (EditText) findViewById(R.id.settings_full_name);
-        userPhoneEditText = (EditText) findViewById(R.id.settings_email);
-        addressEditText = (EditText) findViewById(R.id.settings_phone);
+        userPhoneEditText = (EditText) findViewById(R.id.settings_phone);
+        addressEditText = (EditText) findViewById(R.id.settings_email);
         profileChangeTextBtn = (TextView) findViewById(R.id.profile_image_change_btn);
         closeTextBtn = (TextView) findViewById(R.id.close_settings_btn);
         saveTextButton = (TextView) findViewById(R.id.update_account_settings_btn);
@@ -100,13 +99,13 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void updateOnlyUserInfo() {
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Estudiante");
 
         HashMap<String, Object> userMap = new  HashMap<>();
         userMap. put("name", fullNameEditText.getText().toString());
-        userMap. put("address", fullNameEditText.getText().toString());
-        userMap. put("phoneOrder", fullNameEditText.getText().toString());
-        ref.child(Prevalent.currentOnlineUser.getPhone()).updateChildren(userMap);
+        userMap. put("email", addressEditText.getText().toString());
+        userMap. put("phone", userPhoneEditText.getText().toString());
+        ref.child(Prevalent.currentOnlineUser.getId()).updateChildren(userMap);
 
         startActivity(new Intent(SettingsActivity.this, HomeActivity.class));
         Toast.makeText(SettingsActivity.this, "Perfil Actualizado con exito", Toast.LENGTH_SHORT).show();
@@ -166,7 +165,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         if (imageUri != null){
             final StorageReference fileRef = storageProfilePictureRef
-                    .child(Prevalent.currentOnlineUser.getPhone() + ".jpg");
+                    .child(Prevalent.currentOnlineUser.getId() + ".jpg");
 
             uploadTask = fileRef.putFile(imageUri);
 
@@ -188,14 +187,14 @@ public class SettingsActivity extends AppCompatActivity {
                         Uri downloadUri = task.getResult();
                         myUrl = downloadUri.toString();
 
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Estudiante");
 
                         HashMap<String, Object> userMap = new  HashMap<>();
                         userMap. put("name", fullNameEditText.getText().toString());
-                        userMap. put("address", fullNameEditText.getText().toString());
-                        userMap. put("phoneOrder", fullNameEditText.getText().toString());
+                        userMap. put("email", addressEditText.getText().toString());
+                        userMap. put("phone", userPhoneEditText.getText().toString());
                         userMap. put("image", myUrl);
-                        ref.child(Prevalent.currentOnlineUser.getPhone()).updateChildren(userMap);
+                        ref.child(Prevalent.currentOnlineUser.getId()).updateChildren(userMap);
 
                         progressDialog.dismiss();
 
@@ -218,7 +217,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     private void userInfoDisplay(final CircleImageView profileImageView, final EditText fullNameEditText, final EditText userPhoneEditText, final EditText addressEditText) {
-        DatabaseReference UsersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(Prevalent.currentOnlineUser.getEmail());
+        DatabaseReference UsersRef = FirebaseDatabase.getInstance().getReference().child("Estudiante").child(Prevalent.currentOnlineUser.getId());
 
         UsersRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -228,12 +227,12 @@ public class SettingsActivity extends AppCompatActivity {
                         String image = dataSnapshot.child("image").getValue().toString();
                         String name = dataSnapshot.child("name").getValue().toString();
                         String phone = dataSnapshot.child("phone").getValue().toString();
-                        String address = dataSnapshot.child("address").getValue().toString();
+                        String email = dataSnapshot.child("email").getValue().toString();
 
                         Picasso.get().load(image).into(profileImageView);
                         fullNameEditText.setText(name);
                         userPhoneEditText.setText(phone);
-                        addressEditText.setText(address);
+                        addressEditText.setText(email);
                     }
                 }
 
