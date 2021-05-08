@@ -17,7 +17,7 @@ public class AdminCategoryActivity extends AppCompatActivity {
     private ImageView laptop, proyector, bata;
     private ImageView componentes, material, libros;
 
-    private Button logoutbtn;
+    private Button LogoutBtn, CheckOrderBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +38,18 @@ public class AdminCategoryActivity extends AppCompatActivity {
         material = (ImageView) findViewById(R.id.material);
         libros = (ImageView) findViewById(R.id.libro);
 
-        logoutbtn = (Button) findViewById(R.id.logout_btn);
+        CheckOrderBtn = (Button) findViewById(R.id.check_orders_btn);
+        LogoutBtn = (Button) findViewById(R.id.admin_logout_btn);
 
-        logoutbtn.setOnClickListener(new View.OnClickListener() {
+        CheckOrderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminCategoryActivity.this, AdminNewOrderActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        LogoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(AdminCategoryActivity.this, "Cerrando sesion...", Toast.LENGTH_SHORT).show();
