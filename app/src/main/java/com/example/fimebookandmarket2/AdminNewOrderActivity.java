@@ -1,10 +1,12 @@
 package com.example.fimebookandmarket2;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -65,6 +67,32 @@ public class AdminNewOrderActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         });
+
+                        holder.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                CharSequence options[] = new CharSequence[]{
+                                        "Si",
+                                        "No"
+                                };
+                                AlertDialog.Builder builder = new AlertDialog.Builder(AdminNewOrderActivity.this);
+                                builder.setTitle("¿Ha entregado los productos de este pedido?");
+
+                                builder.setItems(options, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int i) {
+                                        if(i == 0){
+                                            String uID = getRef(position).getKey();
+
+                                            RemoverOrder(uID);
+                                        } else {
+                                            finish();
+                                        }
+                                    }
+                                });
+                                builder.show();
+                            }
+                        });
                     }
 
                     @NonNull
@@ -94,5 +122,9 @@ public class AdminNewOrderActivity extends AppCompatActivity {
             ShowOrdersBtn = itemView.findViewById(R.id.show_all_products_btn);
 
         }
+    }
+
+    private void RemoverOrder(String uID) {
+        ordersRef.child(uID).removeValue();
     }
 }
