@@ -17,7 +17,7 @@ public class AdminCategoryActivity extends AppCompatActivity {
     private ImageView laptop, proyector, bata;
     private ImageView componentes, material, libros;
 
-    private Button LogoutBtn, CheckOrderBtn;
+    private Button LogoutBtn, CheckOrderBtn, maintainProductsBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,14 +38,26 @@ public class AdminCategoryActivity extends AppCompatActivity {
         material = (ImageView) findViewById(R.id.material);
         libros = (ImageView) findViewById(R.id.libro);
 
+        maintainProductsBtn = (Button) findViewById(R.id.maintain_btn);
         CheckOrderBtn = (Button) findViewById(R.id.check_orders_btn);
         LogoutBtn = (Button) findViewById(R.id.admin_logout_btn);
+
+        maintainProductsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminCategoryActivity.this, HomeActivity.class);
+                intent.putExtra("Administrador", "Administrador");
+                startActivity(intent);
+            }
+        });
 
         CheckOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AdminCategoryActivity.this, AdminNewOrderActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -55,7 +67,7 @@ public class AdminCategoryActivity extends AppCompatActivity {
                 Toast.makeText(AdminCategoryActivity.this, "Cerrando sesion...", Toast.LENGTH_SHORT).show();
                 Paper.book().destroy();
                 Intent intent = new Intent(AdminCategoryActivity.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
             }
