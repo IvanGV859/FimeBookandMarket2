@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,12 +47,24 @@ public class AdminNewOrderActivity extends AppCompatActivity {
         FirebaseRecyclerAdapter<AdminOrders, AdminOrdersViewHolder> adapter =
                 new FirebaseRecyclerAdapter<AdminOrders, AdminOrdersViewHolder>(options) {
                     @Override
-                    protected void onBindViewHolder(@NonNull AdminOrdersViewHolder holder, int position, @NonNull AdminOrders model) {
+                    protected void onBindViewHolder(@NonNull AdminOrdersViewHolder holder, final int position, @NonNull final AdminOrders model) {
                         holder.userName.setText("Nombre: "+ model.getName());
                         holder.userPhoneNumber.setText("Telefono: "+ model.getPhone());
                         holder.userTotalPrice.setText("Cantidad total: $"+ model.getTotalAmount());
                         holder.userDateTime.setText("Fecha de orden: "+ model.getDate() + " " + model.getTime());
                         holder.userShippingAddress.setText("Dirección: "+ model.getAddress() + " " + model.getCity());
+
+                        holder.ShowOrdersBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                String uID = getRef(position).getKey();
+
+                                Intent intent = new Intent(AdminNewOrderActivity.this, AdminUserProductActivity.class);
+                                intent.putExtra("uid", uID);
+                                startActivity(intent);
+                            }
+                        });
                     }
 
                     @NonNull
