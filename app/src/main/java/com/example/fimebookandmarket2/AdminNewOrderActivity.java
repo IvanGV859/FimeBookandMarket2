@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.fimebookandmarket2.Model.AdminOrders;
+import com.example.fimebookandmarket2.Prevalent.Prevalent;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +31,8 @@ public class AdminNewOrderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_new_order);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ordersRef = FirebaseDatabase.getInstance().getReference().child("Orders");
 

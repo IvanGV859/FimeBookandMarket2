@@ -70,8 +70,10 @@ public class HomeActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, CartActivity.class);
-                startActivity(intent);
+                if(!type.equals("Administrador")){
+                    Intent intent = new Intent(HomeActivity.this, CartActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -81,8 +83,10 @@ public class HomeActivity extends AppCompatActivity {
         navigationView.getMenu().findItem(R.id.nav_cart).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(HomeActivity.this, CartActivity.class);
-                startActivity(intent);
+                if(!type.equals("Administrador")){
+                    Intent intent = new Intent(HomeActivity.this, CartActivity.class);
+                    startActivity(intent);
+                }
                 return false;
             }
         });
@@ -91,8 +95,10 @@ public class HomeActivity extends AppCompatActivity {
         navigationView.getMenu().findItem(R.id.nav_search).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(HomeActivity.this, SearchProductsActivity.class);
-                startActivity(intent);
+                if(!type.equals("Administrador")){
+                    Intent intent = new Intent(HomeActivity.this, SearchProductsActivity.class);
+                    startActivity(intent);
+                }
                 return false;
             }
         });
@@ -101,8 +107,10 @@ public class HomeActivity extends AppCompatActivity {
         navigationView.getMenu().findItem(R.id.nav_settings).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
-                startActivity(intent);
+                if(!type.equals("Administrador")){
+                    Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
+                    startActivity(intent);
+                }
                 return false;
             }
         });
@@ -111,12 +119,14 @@ public class HomeActivity extends AppCompatActivity {
         navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(HomeActivity.this, "Cerrando sesion...", Toast.LENGTH_SHORT).show();
-                Paper.book().destroy();
-                Intent intent = new Intent(HomeActivity.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                if(!type.equals("Administrador")){
+                    Toast.makeText(HomeActivity.this, "Cerrando sesion...", Toast.LENGTH_SHORT).show();
+                    Paper.book().destroy();
+                    Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
                 return false;
             }
         });

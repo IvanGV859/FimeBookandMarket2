@@ -144,6 +144,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                         Intent intent = new Intent(LoginActivity.this, AdminCategoryActivity.class);
                                         startActivity(intent);
+                                        finish();
                                     } else if(parentDbName.equals("Estudiante")){
                                         Toast.makeText(LoginActivity.this, "Entrando a cuenta estudiante...", Toast.LENGTH_SHORT).show();
                                         loadingBar.dismiss();
@@ -151,6 +152,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                         Prevalent.currentOnlineUser = usuario;
                                         startActivity(intent);
+                                        finish();
                                     }
                                 } else {
                                     Toast.makeText(LoginActivity.this, "Verificar bien los datos o el tipo de usuario", Toast.LENGTH_SHORT).show();

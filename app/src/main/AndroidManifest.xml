@@ -15,7 +15,8 @@
         <activity android:name=".AdminMaintainProductsActivity"></activity>
         <activity android:name=".SearchProductsActivity" />
         <activity android:name=".AdminUserProductActivity" />
-        <activity android:name=".AdminNewOrderActivity" />
+        <activity android:name=".AdminNewOrderActivity"
+            android:parentActivityName=".AdminCategoryActivity"/>
         <activity android:name=".ConfirmFinalOrderActivity" />
         <activity android:name=".CartActivity" />
         <activity android:name=".ProductDetailsActivity" />
