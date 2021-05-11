@@ -5,11 +5,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.provider.FontsContractCompat;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +24,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -45,6 +50,8 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
     private  StorageReference ProductImagesRef;
     private DatabaseReference ProductRef;
     private ProgressDialog loadingBar;
+    FirebaseAuth mAuth;
+    private static final String TAG = "AdminAddNewProductActivity";
 
 
     @Override
@@ -53,6 +60,7 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_add_new_product);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mAuth = FirebaseAuth.getInstance();
 
         CategoryName = getIntent().getExtras().get("Categoria").toString();
         ProductImagesRef = FirebaseStorage.getInstance().getReference().child("Imagen del Producto");
@@ -78,8 +86,33 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
                 ValidateProductData();
             }
         });
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            // do your stuff
+        } else {
+            signInAnonymously();
+        }
+    }
 
+    private void signInAnonymously() {
+        mAuth.signInAnonymously().addOnSuccessListener(this, new  OnSuccessListener<AuthResult>() {
+            @Override
+            public void onSuccess(AuthResult authResult) {
+                // do your stuff
+            }
+        })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Log.e(TAG, "signInAnonymously:FAILURE", exception);
+                    }
+                });
     }
 
     private void OpenGallery() {
@@ -94,7 +127,7 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode==GalleryPick && resultCode==RESULT_OK && data!=null)
+        if (requestCode == GalleryPick && resultCode == RESULT_OK && data!=null)
         {
             ImageUri = data.getData();
             InputProductImage.setImageURI(ImageUri);
@@ -142,10 +175,11 @@ public class AdminAddNewProductActivity extends AppCompatActivity {
 
         Calendar calendar = Calendar.getInstance();
 
-        SimpleDateFormat currentDate = new SimpleDateFormat(" dd MM, yyyy");
+        //SimpleDateFormat currentDate = new SimpleDateFormat(" dd MM, yyyy");
+        SimpleDateFormat currentDate = new SimpleDateFormat("MM dd, yyyy");
         saveCurrentDate = currentDate.format(calendar.getTime());
 
-        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
+        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss");
         saveCurrentTime = currentTime.format(calendar.getTime());
 
         productRandomKey = saveCurrentDate + saveCurrentTime;
