@@ -7,6 +7,7 @@
     android:layout_marginTop="20dp"
     android:layout_marginStart="15dp"
     android:layout_marginEnd="15dp"
+    android:layout_marginBottom="5dp"
     app:cardElevation="15dp"
     tools:context=".AdminMaintainProductsActivity">
 
@@ -84,6 +85,21 @@
             android:background="@drawable/buttons"
             android:textColor="@android:color/white"
             />
+
+        <Button
+            android:id="@+id/delete_product_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/apply_changes_btn"
+            android:text="Eliminar Producto"
+            android:textAlignment="center"
+            android:textSize="18dp"
+            android:padding="12dp"
+            android:layout_margin="30dp"
+            android:background="#BA0808"
+            android:textColor="@android:color/white"
+            />
+
 
     </RelativeLayout>
 
