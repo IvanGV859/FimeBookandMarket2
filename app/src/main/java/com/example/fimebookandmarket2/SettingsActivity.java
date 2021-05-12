@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -36,7 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SettingsActivity extends AppCompatActivity {
 
     private CircleImageView profileImageView;
-    private EditText fullNameEditText, userPhoneEditText, addressEditText;
+    EditText fullNameEditText, userPhoneEditText, addressEditText;
     private TextView profileChangeTextBtn, closeTextBtn, saveTextButton;
 
     private Uri imageUri;
@@ -224,22 +225,18 @@ public class SettingsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
                     if (dataSnapshot.child("image").exists()){
-                        /*String image = dataSnapshot.child("image").getValue().toString();
-                        String name = dataSnapshot.child("name").getValue().toString();
-                        String phone = dataSnapshot.child("phone").getValue().toString();
-                        String email = dataSnapshot.child("email").getValue().toString();*/
+                        String image = dataSnapshot.child("image").getValue().toString();
+                        Picasso.get().load(image).into(profileImageView);
 
-                        //String image = Prevalent.currentOnlineUser.getImage();
-                        String name = Prevalent.currentOnlineUser.getName();
-                        String phone = Prevalent.currentOnlineUser.getPhone();
-                        String email = Prevalent.currentOnlineUser.getEmail();
-
-
-                        //Picasso.get().load(image).into(profileImageView);
-                        fullNameEditText.setText(name);
-                        userPhoneEditText.setText(phone);
-                        addressEditText.setText(email);
                     }
+
+                    String name = dataSnapshot.child("name").getValue().toString();
+                    String phone = dataSnapshot.child("phone").getValue().toString();
+                    String email = dataSnapshot.child("email").getValue().toString();
+
+                    fullNameEditText.setText(name);
+                    userPhoneEditText.setText(phone);
+                    addressEditText.setText(email);
                 }
 
             }
@@ -250,4 +247,5 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
     }
+
 }
