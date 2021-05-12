@@ -111,11 +111,11 @@ public class RegisterActivity extends AppCompatActivity {
                     userdataMap.put("password", password);
                     userdataMap.put("confpass", confpassword);
                     userdataMap.put("phone", phone);
-                    userdataMap.put("tipous", tipoUs);
+                    userdataMap.put("tipous", TipoUs);
 
                     String id = mAuth.getCurrentUser().getUid();
 
-                    mDatabase.child(tipoUs).child(id).setValue(userdataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    mDatabase.child(TipoUs).child(id).setValue(userdataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task2) {
                             //Verificar si registra los datos correctamente en la base de datos

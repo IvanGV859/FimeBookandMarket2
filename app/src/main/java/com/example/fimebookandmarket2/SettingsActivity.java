@@ -102,9 +102,9 @@ public class SettingsActivity extends AppCompatActivity {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Estudiante");
 
         HashMap<String, Object> userMap = new  HashMap<>();
-        userMap. put("name", fullNameEditText.getText().toString());
-        userMap. put("email", addressEditText.getText().toString());
-        userMap. put("phone", userPhoneEditText.getText().toString());
+        userMap.put("name", fullNameEditText.getText().toString());
+        userMap.put("email", addressEditText.getText().toString());
+        userMap.put("phone", userPhoneEditText.getText().toString());
         ref.child(Prevalent.currentOnlineUser.getId()).updateChildren(userMap);
 
         startActivity(new Intent(SettingsActivity.this, HomeActivity.class));
@@ -190,10 +190,10 @@ public class SettingsActivity extends AppCompatActivity {
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Estudiante");
 
                         HashMap<String, Object> userMap = new  HashMap<>();
-                        userMap. put("name", fullNameEditText.getText().toString());
-                        userMap. put("email", addressEditText.getText().toString());
-                        userMap. put("phone", userPhoneEditText.getText().toString());
-                        userMap. put("image", myUrl);
+                        userMap.put("name", fullNameEditText.getText().toString());
+                        userMap.put("email", addressEditText.getText().toString());
+                        userMap.put("phone", userPhoneEditText.getText().toString());
+                        userMap.put("image", myUrl);
                         ref.child(Prevalent.currentOnlineUser.getId()).updateChildren(userMap);
 
                         progressDialog.dismiss();
@@ -224,12 +224,18 @@ public class SettingsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
                     if (dataSnapshot.child("image").exists()){
-                        String image = dataSnapshot.child("image").getValue().toString();
+                        /*String image = dataSnapshot.child("image").getValue().toString();
                         String name = dataSnapshot.child("name").getValue().toString();
                         String phone = dataSnapshot.child("phone").getValue().toString();
-                        String email = dataSnapshot.child("email").getValue().toString();
+                        String email = dataSnapshot.child("email").getValue().toString();*/
 
-                        Picasso.get().load(image).into(profileImageView);
+                        //String image = Prevalent.currentOnlineUser.getImage();
+                        String name = Prevalent.currentOnlineUser.getName();
+                        String phone = Prevalent.currentOnlineUser.getPhone();
+                        String email = Prevalent.currentOnlineUser.getEmail();
+
+
+                        //Picasso.get().load(image).into(profileImageView);
                         fullNameEditText.setText(name);
                         userPhoneEditText.setText(phone);
                         addressEditText.setText(email);
