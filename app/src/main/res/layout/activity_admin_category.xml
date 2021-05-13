@@ -32,13 +32,13 @@
             android:id="@+id/papeleo"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/books" />
+            android:src="@drawable/papeleoimage" />
 
         <ImageView
             android:id="@+id/calculator"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/calculadora"
+            android:src="@drawable/calculadoraimage"
             android:layout_marginStart="16dp"
             />
 
@@ -46,7 +46,7 @@
             android:id="@+id/leds"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/leds"
+            android:src="@drawable/ledimage"
             />
 
     </LinearLayout>
@@ -65,13 +65,13 @@
             android:id="@+id/laptop"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/laptop" />
+            android:src="@drawable/laptopimage" />
 
         <ImageView
             android:id="@+id/proyector"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/proyector"
+            android:src="@drawable/proyectorimage"
             android:layout_marginStart="16dp"
             />
 
@@ -79,7 +79,7 @@
             android:id="@+id/bata"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/bata"
+            android:src="@drawable/bataimage"
             />
     </LinearLayout>
 
@@ -97,13 +97,13 @@
             android:id="@+id/componentes"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/componentes" />
+            android:src="@drawable/componenteimage" />
 
         <ImageView
             android:id="@+id/material"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/material"
+            android:src="@drawable/materialimage"
             android:layout_marginStart="16dp"
             />
 
@@ -111,7 +111,7 @@
             android:id="@+id/libro"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/libro"
+            android:src="@drawable/libroimage"
             />
     </LinearLayout>
 
