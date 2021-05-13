@@ -74,7 +74,7 @@
         android:id="@+id/login_password_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/forget_password_link"
+        android:layout_above="@+id/remember_me_chkb"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="4dp"
@@ -146,22 +146,6 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:visibility="invisible" />
-
-    <TextView
-        android:id="@+id/forget_password_link"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/login_btn"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="40dp"
-        android:layout_marginEnd="21dp"
-        android:layout_marginRight="21dp"
-        android:layout_marginBottom="12dp"
-        android:text="Has olvidado tu contraseña?"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="14sp"
-        android:textStyle="bold" />
 
     <com.rey.material.widget.CheckBox
         android:id="@+id/remember_me_chkb"

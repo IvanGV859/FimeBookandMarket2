@@ -1,5 +1,6 @@
 package com.example.fimebookandmarket2;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -119,22 +120,22 @@ public class HomeActivity extends AppCompatActivity {
         navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if(!type.equals("Administrador")){
+                //if(!type.equals("Administrador")){
                     Toast.makeText(HomeActivity.this, "Cerrando sesion...", Toast.LENGTH_SHORT).show();
                     Paper.book().destroy();
                     Intent intent = new Intent(HomeActivity.this, MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
-                }
+                //}
                 return false;
             }
         });
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_search, R.id.nav_categories, R.id.nav_settings, R.id.nav_logout)
+        mAppBarConfiguration = new AppBarConfiguration.Builder( //R.id.nav_categories
+                R.id.nav_home, R.id.nav_search, R.id.nav_settings, R.id.nav_logout)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -145,10 +146,10 @@ public class HomeActivity extends AppCompatActivity {
         TextView userNameTextView = headerView.findViewById(R.id.user_profile_name);
         CircleImageView profileImageView = headerView.findViewById(R.id.user_profile_image);
 
-        if(!type.equals("Administrador")){
+        //if(!type.equals("Administrador")){
             userNameTextView.setText(Prevalent.currentOnlineUser.getName());
             Picasso.get().load(Prevalent.currentOnlineUser.getImage()).placeholder(R.drawable.profile).into(profileImageView);
-        }
+        //}
 
         recyclerView = findViewById(R.id.recycler_menu);
         recyclerView.setHasFixedSize(true);
@@ -167,6 +168,7 @@ public class HomeActivity extends AppCompatActivity {
 
         FirebaseRecyclerAdapter<Products, ProductViewHolder> adapter =
                 new FirebaseRecyclerAdapter<Products, ProductViewHolder>(options) {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     protected void onBindViewHolder(@NonNull ProductViewHolder holder, int position, @NonNull final Products model) {
                         holder.txtProductName.setText(model.getPname());
@@ -178,17 +180,16 @@ public class HomeActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
 
+                                Intent intent;
                                 if(type.equals("Administrador")){
 
-                                    Intent intent = new Intent(HomeActivity.this, AdminMaintainProductsActivity.class);
-                                    intent.putExtra("pid", model.getPid());
-                                    startActivity(intent);
+                                    intent = new Intent(HomeActivity.this, AdminMaintainProductsActivity.class);
 
                                 } else {
-                                    Intent intent = new Intent(HomeActivity.this, ProductDetailsActivity.class);
-                                    intent.putExtra("pid", model.getPid());
-                                    startActivity(intent);
+                                    intent = new Intent(HomeActivity.this, ProductDetailsActivity.class);
                                 }
+                                intent.putExtra("pid", model.getPid());
+                                startActivity(intent);
                             }
                         });
                     }

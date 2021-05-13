@@ -82,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                 TipoUsuarioEstudiante.setVisibility(View.INVISIBLE);
                 NotAdminLink.setVisibility(View.VISIBLE);
                 TipoUsuarioAdmin.setVisibility(View.VISIBLE);
+                chkBoxRememberMe.setVisibility(View.INVISIBLE);
                 parentDbName = "Administrador";
             }
         });
@@ -94,6 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                 TipoUsuarioEstudiante.setVisibility(View.VISIBLE);
                 NotAdminLink.setVisibility(View.INVISIBLE);
                 TipoUsuarioAdmin.setVisibility(View.INVISIBLE);
+                chkBoxRememberMe.setVisibility(View.VISIBLE);
                 parentDbName = "Estudiante";
             }
         });
