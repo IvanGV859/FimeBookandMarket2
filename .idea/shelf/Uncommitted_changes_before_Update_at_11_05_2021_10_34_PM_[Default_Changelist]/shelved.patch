@@ -1,0 +1,10 @@
+Index: app/debug/output.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/debug/output.json	(date 1620768340130)
++++ app/debug/output.json	(date 1620768340130)
+@@ -0,0 +1,1 @@
++[{"outputType":{"type":"APK"},"apkData":{"type":"MAIN","splits":[],"versionCode":1,"versionName":"1.0","enabled":true,"outputFile":"app-debug.apk","fullName":"debug","baseName":"debug","dirName":""},"path":"app-debug.apk","properties":{}}]
+\ No newline at end of file

@@ -1,0 +1,88 @@
+Index: app/src/main/java/com/example/fimebookandmarket2/HomeActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.fimebookandmarket2;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.view.LayoutInflater;\r\nimport android.view.MenuItem;\r\nimport android.view.View;\r\nimport android.view.Menu;\r\nimport android.view.ViewGroup;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport com.example.fimebookandmarket2.Model.Products;\r\nimport com.example.fimebookandmarket2.Prevalent.Prevalent;\r\nimport com.example.fimebookandmarket2.ViewHolder.ProductViewHolder;\r\nimport com.firebase.ui.database.FirebaseRecyclerAdapter;\r\nimport com.firebase.ui.database.FirebaseRecyclerOptions;\r\nimport com.google.android.material.floatingactionbutton.FloatingActionButton;\r\nimport com.google.android.material.snackbar.Snackbar;\r\nimport com.google.android.material.navigation.NavigationView;\r\nimport com.google.firebase.database.DatabaseReference;\r\nimport com.google.firebase.database.FirebaseDatabase;\r\nimport com.squareup.picasso.Picasso;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.navigation.NavController;\r\nimport androidx.navigation.Navigation;\r\nimport androidx.navigation.ui.AppBarConfiguration;\r\nimport androidx.navigation.ui.NavigationUI;\r\nimport androidx.drawerlayout.widget.DrawerLayout;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.appcompat.widget.Toolbar;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport de.hdodenhof.circleimageview.CircleImageView;\r\nimport io.paperdb.Paper;\r\n\r\npublic class HomeActivity extends AppCompatActivity {\r\n\r\n    private AppBarConfiguration mAppBarConfiguration;\r\n\r\n    private DatabaseReference ProductsRef;\r\n    private RecyclerView recyclerView;\r\n    RecyclerView.LayoutManager layoutManager;\r\n\r\n    private String type = \"\";\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_home);\r\n\r\n        Intent intent = getIntent();\r\n        Bundle bundle = intent.getExtras();\r\n        if(bundle != null){\r\n            type = getIntent().getExtras().get(\"Administrador\").toString();\r\n        }\r\n\r\n        ProductsRef = FirebaseDatabase.getInstance().getReference().child(\"Productos\");\r\n\r\n        Paper.init(this);\r\n\r\n        Toolbar toolbar = findViewById(R.id.toolbar);\r\n        toolbar.setTitle(\"Home\");\r\n        setSupportActionBar(toolbar);\r\n\r\n\r\n        FloatingActionButton fab = findViewById(R.id.fab);\r\n        fab.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                if(!type.equals(\"Administrador\")){\r\n                    Intent intent = new Intent(HomeActivity.this, CartActivity.class);\r\n                    startActivity(intent);\r\n                }\r\n            }\r\n        });\r\n        DrawerLayout drawer = findViewById(R.id.drawer_layout);\r\n        NavigationView navigationView = findViewById(R.id.nav_view);\r\n\r\n        //***************NAV_CART*****************\r\n        navigationView.getMenu().findItem(R.id.nav_cart).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {\r\n            @Override\r\n            public boolean onMenuItemClick(MenuItem item) {\r\n                if(!type.equals(\"Administrador\")){\r\n                    Intent intent = new Intent(HomeActivity.this, CartActivity.class);\r\n                    startActivity(intent);\r\n                }\r\n                return false;\r\n            }\r\n        });\r\n\r\n        //***************NAV_SEARCH*****************\r\n        navigationView.getMenu().findItem(R.id.nav_search).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {\r\n            @Override\r\n            public boolean onMenuItemClick(MenuItem item) {\r\n                if(!type.equals(\"Administrador\")){\r\n                    Intent intent = new Intent(HomeActivity.this, SearchProductsActivity.class);\r\n                    startActivity(intent);\r\n                }\r\n                return false;\r\n            }\r\n        });\r\n\r\n        //***************NAV_SETTINGS*****************\r\n        navigationView.getMenu().findItem(R.id.nav_settings).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {\r\n            @Override\r\n            public boolean onMenuItemClick(MenuItem item) {\r\n                if(!type.equals(\"Administrador\")){\r\n                    Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);\r\n                    startActivity(intent);\r\n                }\r\n                return false;\r\n            }\r\n        });\r\n\r\n        //***************NAV_LOGOUT*****************\r\n        navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {\r\n            @Override\r\n            public boolean onMenuItemClick(MenuItem item) {\r\n                if(!type.equals(\"Administrador\")){\r\n                    Toast.makeText(HomeActivity.this, \"Cerrando sesion...\", Toast.LENGTH_SHORT).show();\r\n                    Paper.book().destroy();\r\n                    Intent intent = new Intent(HomeActivity.this, MainActivity.class);\r\n                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);\r\n                    startActivity(intent);\r\n                    finish();\r\n                }\r\n                return false;\r\n            }\r\n        });\r\n\r\n        // Passing each menu ID as a set of Ids because each\r\n        // menu should be considered as top level destinations.\r\n        mAppBarConfiguration = new AppBarConfiguration.Builder(\r\n                R.id.nav_home, R.id.nav_search, R.id.nav_categories, R.id.nav_settings, R.id.nav_logout)\r\n                .setDrawerLayout(drawer)\r\n                .build();\r\n        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);\r\n        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);\r\n        NavigationUI.setupWithNavController(navigationView, navController);\r\n\r\n        View headerView = navigationView.getHeaderView(0);\r\n        TextView userNameTextView = headerView.findViewById(R.id.user_profile_name);\r\n        CircleImageView profileImageView = headerView.findViewById(R.id.user_profile_image);\r\n\r\n        if(!type.equals(\"Administrador\")){\r\n            userNameTextView.setText(Prevalent.currentOnlineUser.getName());\r\n            Picasso.get().load(Prevalent.currentOnlineUser.getImage()).placeholder(R.drawable.profile).into(profileImageView);\r\n        }\r\n\r\n        recyclerView = findViewById(R.id.recycler_menu);\r\n        recyclerView.setHasFixedSize(true);\r\n        layoutManager = new LinearLayoutManager(this);\r\n        recyclerView.setLayoutManager(layoutManager);\r\n    }\r\n\r\n    @Override\r\n    protected void onStart() {\r\n        super.onStart();\r\n\r\n        FirebaseRecyclerOptions<Products> options =\r\n                new FirebaseRecyclerOptions.Builder<Products>()\r\n                        .setQuery(ProductsRef, Products.class)\r\n                        .build();\r\n\r\n        FirebaseRecyclerAdapter<Products, ProductViewHolder> adapter =\r\n                new FirebaseRecyclerAdapter<Products, ProductViewHolder>(options) {\r\n                    @Override\r\n                    protected void onBindViewHolder(@NonNull ProductViewHolder holder, int position, @NonNull final Products model) {\r\n                        holder.txtProductName.setText(model.getPname());\r\n                        holder.txtProductDescription.setText(model.getDescription());\r\n                        holder.txtProductPrice.setText(\"Precio: \" + model.getPrice() + \"$\");\r\n                        Picasso.get().load(model.getImage()).into(holder.imageView);\r\n\r\n                        holder.itemView.setOnClickListener(new View.OnClickListener() {\r\n                            @Override\r\n                            public void onClick(View v) {\r\n\r\n                                if(type.equals(\"Administrador\")){\r\n\r\n                                    Intent intent = new Intent(HomeActivity.this, AdminMaintainProductsActivity.class);\r\n                                    intent.putExtra(\"pid\", model.getPid());\r\n                                    startActivity(intent);\r\n\r\n                                } else {\r\n                                    Intent intent = new Intent(HomeActivity.this, ProductDetailsActivity.class);\r\n                                    intent.putExtra(\"pid\", model.getPid());\r\n                                    startActivity(intent);\r\n                                }\r\n                            }\r\n                        });\r\n                    }\r\n\r\n                    @NonNull\r\n                    @Override\r\n                    public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\r\n                        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_items_layout, parent, false);\r\n                        ProductViewHolder holder = new ProductViewHolder(view);\r\n                        return holder;\r\n                    }\r\n                };\r\n\r\n        recyclerView.setAdapter(adapter);\r\n        adapter.startListening();\r\n    }\r\n\r\n    @Override\r\n    public boolean onCreateOptionsMenu(Menu menu) {\r\n        // Inflate the menu; this adds items to the action bar if it is present.\r\n        getMenuInflater().inflate(R.menu.home, menu);\r\n        return true;\r\n    }\r\n\r\n    @Override\r\n    public boolean onSupportNavigateUp() {\r\n        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);\r\n        return NavigationUI.navigateUp(navController, mAppBarConfiguration)\r\n                || super.onSupportNavigateUp();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/fimebookandmarket2/HomeActivity.java	(revision edeb55cc1693d28904ce0de1f0cd6e140b3aa93c)
++++ app/src/main/java/com/example/fimebookandmarket2/HomeActivity.java	(date 1620799999097)
+@@ -1,5 +1,6 @@
+ package com.example.fimebookandmarket2;
+ 
++import android.annotation.SuppressLint;
+ import android.content.Intent;
+ import android.os.Bundle;
+ import android.view.LayoutInflater;
+@@ -119,22 +120,22 @@
+         navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+             @Override
+             public boolean onMenuItemClick(MenuItem item) {
+-                if(!type.equals("Administrador")){
++                //if(!type.equals("Administrador")){
+                     Toast.makeText(HomeActivity.this, "Cerrando sesion...", Toast.LENGTH_SHORT).show();
+                     Paper.book().destroy();
+                     Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                     startActivity(intent);
+                     finish();
+-                }
++                //}
+                 return false;
+             }
+         });
+ 
+         // Passing each menu ID as a set of Ids because each
+         // menu should be considered as top level destinations.
+-        mAppBarConfiguration = new AppBarConfiguration.Builder(
+-                R.id.nav_home, R.id.nav_search, R.id.nav_categories, R.id.nav_settings, R.id.nav_logout)
++        mAppBarConfiguration = new AppBarConfiguration.Builder( //R.id.nav_categories
++                R.id.nav_home, R.id.nav_search, R.id.nav_settings, R.id.nav_logout)
+                 .setDrawerLayout(drawer)
+                 .build();
+         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+@@ -145,10 +146,10 @@
+         TextView userNameTextView = headerView.findViewById(R.id.user_profile_name);
+         CircleImageView profileImageView = headerView.findViewById(R.id.user_profile_image);
+ 
+-        if(!type.equals("Administrador")){
++        //if(!type.equals("Administrador")){
+             userNameTextView.setText(Prevalent.currentOnlineUser.getName());
+             Picasso.get().load(Prevalent.currentOnlineUser.getImage()).placeholder(R.drawable.profile).into(profileImageView);
+-        }
++        //}
+ 
+         recyclerView = findViewById(R.id.recycler_menu);
+         recyclerView.setHasFixedSize(true);
+@@ -167,6 +168,7 @@
+ 
+         FirebaseRecyclerAdapter<Products, ProductViewHolder> adapter =
+                 new FirebaseRecyclerAdapter<Products, ProductViewHolder>(options) {
++                    @SuppressLint("SetTextI18n")
+                     @Override
+                     protected void onBindViewHolder(@NonNull ProductViewHolder holder, int position, @NonNull final Products model) {
+                         holder.txtProductName.setText(model.getPname());
+@@ -178,17 +180,16 @@
+                             @Override
+                             public void onClick(View v) {
+ 
++                                Intent intent;
+                                 if(type.equals("Administrador")){
+ 
+-                                    Intent intent = new Intent(HomeActivity.this, AdminMaintainProductsActivity.class);
+-                                    intent.putExtra("pid", model.getPid());
+-                                    startActivity(intent);
++                                    intent = new Intent(HomeActivity.this, AdminMaintainProductsActivity.class);
+ 
+                                 } else {
+-                                    Intent intent = new Intent(HomeActivity.this, ProductDetailsActivity.class);
+-                                    intent.putExtra("pid", model.getPid());
+-                                    startActivity(intent);
+-                                }
++                                    intent = new Intent(HomeActivity.this, ProductDetailsActivity.class);
++                                }
++                                intent.putExtra("pid", model.getPid());
++                                startActivity(intent);
+                             }
+                         });
+                     }

@@ -1,0 +1,94 @@
+Index: app/src/main/java/com/example/fimebookandmarket2/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.fimebookandmarket2;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport android.app.ProgressDialog;\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.os.SystemClock;\r\nimport android.text.TextUtils;\r\nimport android.view.View;\r\nimport android.widget.Toast;\r\n\r\nimport com.example.fimebookandmarket2.Prevalent.Prevalent;\r\nimport com.google.android.gms.tasks.OnCompleteListener;\r\nimport com.google.android.gms.tasks.Task;\r\nimport com.google.firebase.auth.AuthResult;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\n\r\nimport org.w3c.dom.Text;\r\n\r\nimport io.paperdb.Paper;\r\n\r\npublic class MainActivity extends AppCompatActivity {\r\n\r\n    FirebaseAuth mAuth;\r\n    private ProgressDialog loadingBar;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n\r\n        //SystemClock.sleep(2000);\r\n\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_main);\r\n\r\n        mAuth = FirebaseAuth.getInstance();\r\n        Paper.init(this);\r\n        loadingBar = new ProgressDialog(this);\r\n\r\n        String UserEmailKey = Paper.book().read(Prevalent.UserEmailKey);\r\n        String UserPasswordKey = Paper.book().read(Prevalent.UserPasswordKey);\r\n\r\n        if(UserEmailKey != \"\" && UserPasswordKey != \"\"){\r\n            if(!TextUtils.isEmpty(UserEmailKey) && !TextUtils.isEmpty(UserPasswordKey)){\r\n                mAuth.signInWithEmailAndPassword(UserEmailKey, UserPasswordKey).addOnCompleteListener(new OnCompleteListener<AuthResult>() {\r\n                    @Override\r\n                    public void onComplete(@NonNull Task<AuthResult> task) {\r\n                        if(task.isSuccessful()){\r\n                            Toast.makeText(MainActivity.this, \"Entrando...\", Toast.LENGTH_SHORT).show();\r\n                            loadingBar.dismiss();\r\n                            Intent intent = new Intent(MainActivity.this, HomeActivity.class);\r\n                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);\r\n                            startActivity(intent);\r\n                            finish();\r\n                        }else {\r\n                            Toast.makeText(MainActivity.this, \"Verificar bien los datos\", Toast.LENGTH_SHORT).show();\r\n                            loadingBar.dismiss();\r\n                        }\r\n                    }\r\n                });\r\n\r\n                loadingBar.setTitle(\"Iniciado sesion\");\r\n                loadingBar.setMessage(\"Porfavor espere...\");\r\n                loadingBar.setCanceledOnTouchOutside(false);\r\n                loadingBar.show();\r\n            }\r\n        }\r\n\r\n    }\r\n\r\n    public void onClick(View view){\r\n        switch (view.getId()){\r\n            case R.id.main_join_now_btn:\r\n                Intent intent = new Intent(MainActivity.this, LoginActivity.class);\r\n                startActivity(intent);\r\n                break;\r\n            case R.id.main_login_btn:\r\n                Intent intent1 = new Intent(MainActivity.this, RegisterActivity.class);\r\n                startActivity(intent1);\r\n                break;\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/fimebookandmarket2/MainActivity.java	(revision edeb55cc1693d28904ce0de1f0cd6e140b3aa93c)
++++ app/src/main/java/com/example/fimebookandmarket2/MainActivity.java	(date 1620796703146)
+@@ -25,6 +25,7 @@
+ 
+     FirebaseAuth mAuth;
+     private ProgressDialog loadingBar;
++    private String type = "";
+ 
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+@@ -34,6 +35,12 @@
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_main);
+ 
++        Intent intent = getIntent();
++        Bundle bundle = intent.getExtras();
++        if(bundle != null){
++            type = getIntent().getExtras().get("Administrador").toString();
++        }
++
+         mAuth = FirebaseAuth.getInstance();
+         Paper.init(this);
+         loadingBar = new ProgressDialog(this);
+Index: app/src/main/res/menu/activity_main_drawer.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<menu xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    tools:showIn=\"navigation_view\">\r\n\r\n    <group android:checkableBehavior=\"single\">\r\n        <item\r\n            android:id=\"@+id/nav_cart\"\r\n            android:icon=\"@drawable/nav_cart\"\r\n            android:title=\"Carrito\"\r\n            android:iconTint=\"@android:color/white\"/>\r\n        <item\r\n            android:id=\"@+id/nav_search\"\r\n            android:icon=\"@drawable/orders\"\r\n            android:title=\"Buscar Productos\"\r\n            android:iconTint=\"@android:color/white\"/>\r\n\r\n        <item\r\n            android:id=\"@+id/nav_categories\"\r\n            android:icon=\"@drawable/category\"\r\n            android:title=\"Categorias\"\r\n            android:iconTint=\"@android:color/white\"/>\r\n\r\n        <item\r\n            android:id=\"@+id/nav_settings\"\r\n            android:icon=\"@drawable/ic_menu_manage\"\r\n            android:title=\"Configuración\"\r\n            android:iconTint=\"@android:color/white\"/>\r\n        <item\r\n            android:id=\"@+id/nav_logout\"\r\n            android:icon=\"@drawable/logout\"\r\n            android:title=\"Cerrar sesion\"\r\n            android:iconTint=\"@android:color/white\"/>\r\n    </group>\r\n</menu>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/menu/activity_main_drawer.xml	(revision edeb55cc1693d28904ce0de1f0cd6e140b3aa93c)
++++ app/src/main/res/menu/activity_main_drawer.xml	(date 1620791067517)
+@@ -15,11 +15,11 @@
+             android:title="Buscar Productos"
+             android:iconTint="@android:color/white"/>
+ 
+-        <item
++        <!--<item
+             android:id="@+id/nav_categories"
+             android:icon="@drawable/category"
+             android:title="Categorias"
+-            android:iconTint="@android:color/white"/>
++            android:iconTint="@android:color/white"/>-->
+ 
+         <item
+             android:id="@+id/nav_settings"
+Index: app/src/main/res/layout/activity_login.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:background=\"@android:color/white\"\r\n\r\n    tools:context=\".LoginActivity\">\r\n\r\n    <ImageView\r\n        android:id=\"@+id/login_applogo\"\r\n        android:layout_width=\"300dp\"\r\n        android:layout_height=\"100dp\"\r\n        android:layout_alignParentStart=\"true\"\r\n        android:layout_alignParentLeft=\"true\"\r\n        android:layout_alignParentTop=\"true\"\r\n        android:layout_alignParentEnd=\"true\"\r\n        android:layout_alignParentRight=\"true\"\r\n        android:layout_marginStart=\"58dp\"\r\n        android:layout_marginLeft=\"58dp\"\r\n        android:layout_marginTop=\"69dp\"\r\n        android:layout_marginEnd=\"52dp\"\r\n        android:layout_marginRight=\"52dp\"\r\n        android:src=\"@drawable/applogo\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/tipo_usuario_estudiante\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_below=\"@+id/login_applogo\"\r\n        android:layout_centerHorizontal=\"true\"\r\n        android:layout_marginTop=\"-2dp\"\r\n        android:layout_marginEnd=\"154dp\"\r\n        android:layout_marginRight=\"154dp\"\r\n        android:text=\"ESTUDIANTE\"\r\n        android:textColor=\"@color/colorPrimaryDark\"\r\n        android:textSize=\"18dp\"\r\n        android:textStyle=\"bold\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/tipo_usuario_admin\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_below=\"@+id/login_applogo\"\r\n        android:layout_centerHorizontal=\"true\"\r\n        android:layout_marginTop=\"-2dp\"\r\n        android:layout_marginEnd=\"154dp\"\r\n        android:layout_marginRight=\"154dp\"\r\n        android:text=\"ADMINISTRADOR\"\r\n        android:textColor=\"@color/colorPrimaryDark\"\r\n        android:textSize=\"18dp\"\r\n        android:textStyle=\"bold\"\r\n        android:visibility=\"invisible\"/>\r\n\r\n    <EditText\r\n        android:id=\"@+id/login_email_input\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginLeft=\"15dp\"\r\n        android:layout_marginRight=\"15dp\"\r\n        android:layout_marginBottom=\"4dp\"\r\n        android:layout_above=\"@+id/login_password_input\"\r\n        android:background=\"@drawable/input_design\"\r\n        android:hint=\"Correo electronico\"\r\n        android:inputType=\"text\"\r\n        android:padding=\"20dp\"\r\n        android:textColor=\"@color/colorPrimaryDark\"\r\n        android:textColorHint=\"@color/colorPrimaryDark\"\r\n        android:textSize=\"17sp\"\r\n        android:textStyle=\"bold\" />\r\n\r\n    <EditText\r\n        android:id=\"@+id/login_password_input\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_above=\"@+id/forget_password_link\"\r\n        android:layout_marginLeft=\"15dp\"\r\n        android:layout_marginRight=\"15dp\"\r\n        android:layout_marginBottom=\"4dp\"\r\n        android:background=\"@drawable/input_design\"\r\n        android:hint=\"Contraseña\"\r\n        android:inputType=\"textPassword\"\r\n        android:padding=\"20dp\"\r\n        android:textColor=\"@color/colorPrimaryDark\"\r\n        android:textColorHint=\"@color/colorPrimaryDark\"\r\n        android:textSize=\"17sp\"\r\n        android:textStyle=\"bold\" />\r\n\r\n    <LinearLayout\r\n        android:id=\"@+id/linear_layout_1\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:orientation=\"horizontal\"\r\n        android:layout_below=\"@+id/login_password_input\"\r\n        android:layout_marginTop=\"5dp\"\r\n        >\r\n\r\n    </LinearLayout>\r\n\r\n    <Button\r\n        android:id=\"@+id/login_btn\"\r\n        android:layout_width=\"379dp\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_above=\"@+id/admin_panel_link\"\r\n        android:layout_marginBottom=\"-2dp\"\r\n        android:background=\"@drawable/buttons\"\r\n        android:padding=\"17dp\"\r\n        android:text=\"Iniciar sesion\"\r\n        android:layout_marginLeft=\"15dp\"\r\n        android:layout_marginRight=\"15dp\"\r\n        android:textAllCaps=\"false\"\r\n        android:textColor=\"@android:color/white\"\r\n        android:textSize=\"18sp\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/admin_panel_link\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"49dp\"\r\n        android:layout_alignParentEnd=\"true\"\r\n        android:layout_alignParentRight=\"true\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        android:layout_marginLeft=\"60dp\"\r\n        android:layout_marginEnd=\"22dp\"\r\n        android:layout_marginRight=\"22dp\"\r\n        android:layout_marginBottom=\"32dp\"\r\n        android:text=\"Iniciar como administrador\"\r\n        android:textColor=\"@color/colorPrimaryDark\"\r\n        android:textSize=\"20sp\"\r\n        android:textStyle=\"bold\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/not_admin_panel_link\"\r\n        android:layout_width=\"230dp\"\r\n        android:layout_height=\"45dp\"\r\n        android:layout_alignParentStart=\"true\"\r\n        android:layout_alignParentLeft=\"true\"\r\n        android:layout_alignParentRight=\"true\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        android:layout_marginStart=\"15dp\"\r\n        android:layout_marginLeft=\"15dp\"\r\n        android:layout_marginRight=\"166dp\"\r\n        android:layout_marginBottom=\"37dp\"\r\n        android:text=\"Iniciar como estudiante\"\r\n        android:textColor=\"@color/colorPrimaryDark\"\r\n        android:textSize=\"20sp\"\r\n        android:textStyle=\"bold\"\r\n        android:visibility=\"invisible\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/forget_password_link\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_above=\"@+id/login_btn\"\r\n        android:layout_alignParentEnd=\"true\"\r\n        android:layout_alignParentRight=\"true\"\r\n        android:layout_marginLeft=\"40dp\"\r\n        android:layout_marginEnd=\"21dp\"\r\n        android:layout_marginRight=\"21dp\"\r\n        android:layout_marginBottom=\"12dp\"\r\n        android:text=\"Has olvidado tu contraseña?\"\r\n        android:textColor=\"@color/colorPrimaryDark\"\r\n        android:textSize=\"14sp\"\r\n        android:textStyle=\"bold\" />\r\n\r\n    <com.rey.material.widget.CheckBox\r\n        android:id=\"@+id/remember_me_chkb\"\r\n        style=\"@style/Material.Drawable.CheckBox\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_above=\"@+id/login_btn\"\r\n        android:layout_marginLeft=\"17dp\"\r\n        android:layout_marginBottom=\"4dp\"\r\n        android:gravity=\"center_vertical\"\r\n        android:text=\"Recordarme\"\r\n        android:textColor=\"@color/colorPrimaryDark\"\r\n        android:textSize=\"14sp\"\r\n        android:textStyle=\"bold\"\r\n        app:cbd_strokeColor=\"@color/colorPrimaryDark\" />\r\n\r\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_login.xml	(revision edeb55cc1693d28904ce0de1f0cd6e140b3aa93c)
++++ app/src/main/res/layout/activity_login.xml	(date 1620796338041)
+@@ -74,7 +74,7 @@
+         android:id="@+id/login_password_input"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+-        android:layout_above="@+id/forget_password_link"
++        android:layout_above="@+id/remember_me_chkb"
+         android:layout_marginLeft="15dp"
+         android:layout_marginRight="15dp"
+         android:layout_marginBottom="4dp"
+@@ -147,22 +147,6 @@
+         android:textStyle="bold"
+         android:visibility="invisible" />
+ 
+-    <TextView
+-        android:id="@+id/forget_password_link"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_above="@+id/login_btn"
+-        android:layout_alignParentEnd="true"
+-        android:layout_alignParentRight="true"
+-        android:layout_marginLeft="40dp"
+-        android:layout_marginEnd="21dp"
+-        android:layout_marginRight="21dp"
+-        android:layout_marginBottom="12dp"
+-        android:text="Has olvidado tu contraseña?"
+-        android:textColor="@color/colorPrimaryDark"
+-        android:textSize="14sp"
+-        android:textStyle="bold" />
+-
+     <com.rey.material.widget.CheckBox
+         android:id="@+id/remember_me_chkb"
+         style="@style/Material.Drawable.CheckBox"
