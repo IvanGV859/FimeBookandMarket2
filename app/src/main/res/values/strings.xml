@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FimeBookandMarket2</string>
+    <string name="app_name">FimeBookandMarket</string>
 
     <string-array name="TipoUs">
         <item>Estudiante</item>
