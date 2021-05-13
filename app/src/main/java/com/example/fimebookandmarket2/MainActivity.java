@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                                     finish();
                                 }
                             } else {
-                                Toast.makeText(MainActivity.this, "Verificar bien los datos o el tipo de usuario", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(MainActivity.this, "Verificar bien los datos o el tipo de usuario", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
                             }
                         }
