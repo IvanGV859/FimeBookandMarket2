@@ -157,7 +157,7 @@ public class LoginActivity extends AppCompatActivity {
                                         finish();
                                     }
                                 } else {
-                                    Toast.makeText(LoginActivity.this, "Verificar bien los datos o el tipo de usuario", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(LoginActivity.this, "Verificar bien los datos o el tipo de usuario", Toast.LENGTH_SHORT).show();
                                     loadingBar.dismiss();
                                 }
                             }
